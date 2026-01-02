@@ -75,6 +75,7 @@ export const WEATHER_TRANSLATIONS: Record<string, string> = {
   '晴，少雲': '晴時多雲',
   '晴，多雲': '晴時多雲',
   '碎雲': '多雲',
+  '陰，多雲': '多雲', // Added based on OWM zh_tw response for 803
   '厚雲': '陰天',
   '小雨': '小雨',
   '中雨': '中雨',
