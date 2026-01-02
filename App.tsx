@@ -92,7 +92,7 @@ const App: React.FC = () => {
     const currentSegment = today.segments[0];
     const isDay = currentSegment.weather[0].icon.endsWith('d');
     const code = currentSegment.weather[0].id;
-    
+
     let newTheme = ThemeType.SunnyDay;
 
     if (code >= 200 && code < 600) {
@@ -107,10 +107,18 @@ const App: React.FC = () => {
 
     const themeColorMeta = document.getElementById('theme-color-meta');
     if (themeColorMeta) {
-      let colorHex = '#1e293b';
-      if (newTheme.includes('SUNNY_DAY')) colorHex = '#2980b9';
-      if (newTheme.includes('RAINY')) colorHex = '#373B44';
-      themeColorMeta.setAttribute('content', colorHex);
+      // Extract the 'from' color of the new theme gradient to match status bar
+      // This maps the start color of the gradients defined in THEMES
+      const themeColors: Record<ThemeType, string> = {
+        [ThemeType.SunnyDay]: '#2980b9',
+        [ThemeType.SunnyNight]: '#0f2027',
+        [ThemeType.CloudyDay]: '#606c88',
+        [ThemeType.CloudyNight]: '#232526',
+        [ThemeType.RainyDay]: '#373B44',
+        [ThemeType.RainyNight]: '#000000',
+      };
+
+      themeColorMeta.setAttribute('content', themeColors[newTheme] || '#1e293b');
     }
   };
 
@@ -118,13 +126,13 @@ const App: React.FC = () => {
 
   // Derive current weather conditions for the background component
   const currentWeatherId = dailyData.length > 0 ? dailyData[0].weatherId : 800;
-  const isCurrentDay = dailyData.length > 0 
-    ? dailyData[0].segments[0].weather[0].icon.endsWith('d') 
+  const isCurrentDay = dailyData.length > 0
+    ? dailyData[0].segments[0].weather[0].icon.endsWith('d')
     : true;
 
   return (
     <div className={`min-h-screen w-full transition-all duration-1000 ease-in-out ${activeTheme.bgGradient} flex flex-col items-center relative overflow-hidden`}>
-      
+
       {/* Background Weather Effects */}
       {!loading && (
         <WeatherBackground weatherId={currentWeatherId} isDay={isCurrentDay} />
@@ -132,8 +140,9 @@ const App: React.FC = () => {
 
       {/* Container constraint for large screens */}
       {/* Added z-10 to ensure content is above background effects */}
-      <div className="w-full max-w-md min-h-screen flex flex-col relative z-10">
-        
+      {/* Added pt-[env(safe-area-inset-top)] to respect mobile safe areas */}
+      <div className="w-full max-w-md min-h-screen flex flex-col relative z-10 pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]">
+
         {/* Header / Location */}
         <LocationSelector currentCity={currentCity} onCityChange={setCurrentCity} />
 
@@ -144,13 +153,13 @@ const App: React.FC = () => {
           </div>
         ) : dailyData.length > 0 ? (
           <div className="flex-1 flex flex-col w-full animate-fade-in-up">
-            
+
             <CurrentWeather data={dailyData[0].segments[0]} />
 
             <HourlyForecast data={dailyData[0].segments} />
 
             <DailyForecast days={dailyData} />
-            
+
             {/* Attribution */}
             <div className="text-center pb-8 pt-2 opacity-40 text-xs text-white">
               Data provided by OpenWeatherMap
@@ -170,7 +179,7 @@ const App: React.FC = () => {
         )}
 
       </div>
-      
+
       <style>{`
         /* Existing Animations */
         @keyframes shimmer {
