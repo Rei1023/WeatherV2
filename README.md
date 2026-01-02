@@ -1,20 +1,54 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Taiwan Glass Weather V2
 
-# Run and deploy your AI Studio app
+A weather application built with React, TypeScript, and Vite.
 
-This contains everything you need to run your app locally.
+## Getting Started
 
-View your app in AI Studio: https://ai.studio/apps/drive/1Tq2cMDphjhGT4gDjLZr1SQr56Rh_ol9v
+### Prerequisites
 
-## Run Locally
+- Node.js (v20 or higher recommended)
+- npm
 
-**Prerequisites:**  Node.js
+### Installation
 
+Install the project dependencies:
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+```bash
+npm install
+```
+
+### Development
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+### Build
+
+Build the project for production:
+
+```bash
+npm run build
+```
+
+The build artifacts will be stored in the `dist/` directory.
+
+## Deployment
+
+### Automatic Deployment
+
+This project is configured with GitHub Actions to automatically deploy to GitHub Pages when changes are pushed to the `main` branch.
+
+### Manual Deployment
+
+You can also manually deploy using the `gh-pages` package:
+
+```bash
+npm run deploy
+```
+
+Make sure your `package.json` `homepage` field is correctly set to your GitHub Pages URL: `https://<username>.github.io/<repo-name>`.
