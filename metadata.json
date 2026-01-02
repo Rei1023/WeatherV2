@@ -1,0 +1,5 @@
+{
+  "name": "Taiwan Glass Weather",
+  "description": "A high-fidelity, mobile-first weather application for Taiwan featuring advanced glassmorphism UI, localized data, and dynamic theming.",
+  "requestFramePermissions": []
+}
