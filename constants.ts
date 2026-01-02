@@ -14,52 +14,52 @@ export const CITIES: City[] = [
   { name: '花蓮縣', lat: 23.9872, lon: 121.6011 }, // Added for completeness
 ];
 
-// Localization Dictionary
 export const WEATHER_TRANSLATIONS: Record<string, string> = {
-  // 晴朗與雲量系列
+  // 雲量系列 (Cloudiness)
   'clear sky': '晴',
   'sky is clear': '晴',
-  'few clouds': '晴時多雲',
-  'scattered clouds': '多雲時晴',
-  'broken clouds': '多雲',
-  'overcast clouds': '陰',
+  'few clouds': '晴時多雲',      // 801
+  'scattered clouds': '晴時多雲', // 802
+  'broken clouds': '多雲',        // 803
+  'overcast clouds': '陰天',      // 804
 
-  // 保濕噴霧系列 (原毛毛雨)
-  'light intensity drizzle': '局部保濕噴霧',
-  'drizzle': '保濕噴霧',
-  'heavy intensity drizzle': '強力保濕噴霧',
-  'light intensity drizzle rain': '局部保濕噴霧',
-  'drizzle rain': '保濕噴霧',
-  'heavy intensity drizzle rain': '強力保濕噴霧',
-  'shower rain and drizzle': '陣性保濕噴霧',
-  'heavy shower rain and drizzle': '強力陣性保濕噴霧',
-  'shower drizzle': '陣性保濕噴霧',
+  // 降雨與細雨簡化 (Rain & Drizzle -> 小雨/陣雨/大雨)
+  // Drizzle (細雨)
+  'light intensity drizzle': '小雨',
+  'drizzle': '小雨',
+  'heavy intensity drizzle': '小雨',
+  'light intensity drizzle rain': '小雨',
+  'drizzle rain': '小雨',
+  'heavy intensity drizzle rain': '小雨',
+  'shower drizzle': '陣雨',
 
-  // 雷雨系列
-  'thunderstorm with light rain': '短暫雷陣雨',
-  'thunderstorm with rain': '雷陣雨伴隨雨',
-  'thunderstorm': '雷陣雨',
-  'thunderstorm with heavy rain': '雷雨並有大雨',
-  'light thunderstorm': '短暫雷陣雨',
-  'heavy thunderstorm': '強雷陣雨',
-  'ragged thunderstorm': '雷陣雨',
-  'thunderstorm with light drizzle': '雷陣雨伴隨保濕噴霧',
-  'thunderstorm with drizzle': '雷陣雨伴隨保濕噴霧',
-  'thunderstorm with heavy drizzle': '雷陣雨伴隨強力保濕噴霧',
-
-  // 降雨與陣雨系列
-  'light rain': '短暫雨',
-  'moderate rain': '有雨',
+  // Rain (雨)
+  'light rain': '小雨',
+  'moderate rain': '大雨',       // Simplified to 大雨 as it's significant
   'heavy intensity rain': '大雨',
-  'very heavy rain': '豪雨',
-  'extreme rain': '大豪雨',
-  'freezing rain': '凍雨',
-  'light intensity shower rain': '局部短暫陣雨',
-  'shower rain': '短暫陣雨',
-  'heavy intensity shower rain': '短暫大雨',
-  'ragged shower rain': '短暫陣雨',
+  'very heavy rain': '大雨',
+  'extreme rain': '大雨',
+  'freezing rain': '大雨',
 
-  // 大氣現象系列
+  // Shower Rain (陣雨)
+  'light intensity shower rain': '陣雨',
+  'shower rain': '陣雨',
+  'heavy intensity shower rain': '陣雨',
+  'ragged shower rain': '陣雨',
+
+  // Thunderstorm (雷雨 -> 雷陣雨)
+  'thunderstorm with light rain': '雷陣雨',
+  'thunderstorm with rain': '雷陣雨',
+  'thunderstorm with heavy rain': '雷陣雨',
+  'light thunderstorm': '雷陣雨',
+  'thunderstorm': '雷陣雨',
+  'heavy thunderstorm': '雷陣雨',
+  'ragged thunderstorm': '雷陣雨',
+  'thunderstorm with light drizzle': '雷陣雨',
+  'thunderstorm with drizzle': '雷陣雨',
+  'thunderstorm with heavy drizzle': '雷陣雨',
+
+  // 大氣現象 (Atmosphere) - Keep standard localized terms
   'mist': '薄霧',
   'smoke': '煙霧',
   'haze': '霾',
@@ -71,13 +71,15 @@ export const WEATHER_TRANSLATIONS: Record<string, string> = {
   'squalls': '強陣風',
   'tornado': '龍捲風',
 
-  // Chinese API response mapping (Aligned with new terms)
+  // Custom API response mapping (Chinese fallback)
   '晴，少雲': '晴時多雲',
-  '晴，多雲': '多雲時晴',
+  '晴，多雲': '晴時多雲',
   '碎雲': '多雲',
-  '厚雲': '陰',
-  '強度雨': '大雨',
-  '小雨': '短暫雨',
-  '中雨': '有雨',
+  '厚雲': '陰天',
+  '小雨': '小雨',
+  '中雨': '中雨',
   '大雨': '大雨',
+  '強度雨': '大雨',
+  '陣雨': '陣雨',
+  '雷雨': '雷陣雨',
 };

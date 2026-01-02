@@ -22,9 +22,43 @@ export const getIconClass = (iconCode: string): string => {
 };
 
 // --- Localization ---
+// --- Localization ---
 export const getLocalizedDescription = (description: string): string => {
   const lowerDesc = description.toLowerCase();
-  return WEATHER_TRANSLATIONS[lowerDesc] || description;
+
+  // 1. Try exact match first (which handles specific API codes we know)
+  if (WEATHER_TRANSLATIONS[lowerDesc]) {
+    return WEATHER_TRANSLATIONS[lowerDesc];
+  }
+
+  // 2. Priority Logic for compound descriptions (e.g. "thunderstorm with rain")
+  // Order matters: checks from top (most severe) to bottom.
+  const priorityKeywords = [
+    { key: 'thunderstorm', trans: '雷陣雨' },
+    { key: 'severe', trans: '大豪雨' },
+    { key: 'extreme', trans: '大豪雨' },
+    { key: 'heavy rain', trans: '大雨' }, // "heavy intensity rain"
+    { key: 'moderate rain', trans: '大雨' },
+    { key: 'shower', trans: '陣雨' }, // "shower rain", "light intensity shower rain"
+    { key: 'rain', trans: '小雨' }, // catch-all for "light rain", "drizzle" if specific heavy/shower not matched
+    { key: 'drizzle', trans: '小雨' }, // simplified per request
+    { key: 'snow', trans: '雪' },
+    { key: 'overcast', trans: '陰天' },
+    { key: 'broken clouds', trans: '多雲' },
+    { key: 'scattered clouds', trans: '晴時多雲' }, // 802
+    { key: 'few clouds', trans: '晴時多雲' }, // 801
+    { key: 'clear', trans: '晴' },
+    { key: 'clouds', trans: '多雲' }, // Fallback for generic "clouds"
+  ];
+
+  for (const item of priorityKeywords) {
+    if (lowerDesc.includes(item.key)) {
+      return item.trans;
+    }
+  }
+
+  // Fallback: return original if nothing matched
+  return description;
 };
 
 // --- Date Formatting ---
@@ -63,11 +97,11 @@ export const processForecastData = (list: WeatherSegment[]): DailySummary[] => {
   const dailySummaries: DailySummary[] = Object.keys(grouped).map(date => {
     const segments = grouped[date];
     const dateObj = new Date(date);
-    
+
     // Calculate min/max temp
     let minTemp = 100;
     let maxTemp = -100;
-    
+
     // Determine most frequent icon or take noon icon
     const iconCounts: Record<string, number> = {};
     let representativeIcon = segments[0].weather[0].icon;
@@ -77,7 +111,7 @@ export const processForecastData = (list: WeatherSegment[]): DailySummary[] => {
     segments.forEach(seg => {
       if (seg.main.temp_min < minTemp) minTemp = seg.main.temp_min;
       if (seg.main.temp_max > maxTemp) maxTemp = seg.main.temp_max;
-      
+
       const icon = seg.weather[0].icon;
       iconCounts[icon] = (iconCounts[icon] || 0) + 1;
 
@@ -115,7 +149,7 @@ export const generateMockData = (): ForecastResponse => {
   for (let i = 0; i < 40; i++) {
     const forecastTime = new Date(now.getTime() + i * 3 * 60 * 60 * 1000);
     const isDay = forecastTime.getHours() > 6 && forecastTime.getHours() < 18;
-    
+
     list.push({
       dt: Math.floor(forecastTime.getTime() / 1000),
       main: {
